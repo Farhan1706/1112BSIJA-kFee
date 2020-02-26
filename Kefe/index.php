@@ -24,7 +24,7 @@
                     <li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger" href="#portfolio">Menu</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger" href="#about">Tentang kami</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger" href="#contact">Lokasi</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger" href="Meja.php">Pesan</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger" href="Customers/Meja.php">Pesan</a></li>
                 </ul>
             </div>
         </div>
@@ -34,6 +34,7 @@
             <div class="intro-text">
                 <div class="intro-lead-in"><span>KeeFeee</span></div>
                 <div class="intro-heading text-uppercase"><span>Kemari dan Nikmati&nbsp;<br>Dunia anda<br></span></div>
+                <h1><br>Kalau Mau Akses Admin tambahin !admin di url</h1>
             </div>
         </div>
     </header>

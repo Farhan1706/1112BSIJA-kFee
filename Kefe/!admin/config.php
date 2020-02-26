@@ -3,7 +3,7 @@
 	$DB_HOST = '127.0.0.1';
 	$DB_USER = 'root';
 	$DB_PASS = '';
-	$DB_NAME = 'edgedata';
+	$DB_NAME = 'kefe';
 	
 	try{
 		$DB_con = new PDO("mysql:host={$DB_HOST};dbname={$DB_NAME}",$DB_USER,$DB_PASS);
@@ -12,4 +12,3 @@
 	catch(PDOException $e){
 		echo $e->getMessage();
 	}
-	

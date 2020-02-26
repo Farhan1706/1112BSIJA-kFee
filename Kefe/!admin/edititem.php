@@ -4,7 +4,7 @@ session_start();
 if(!$_SESSION['admin_username'])
 {
 
-    header("Location: ../index.php");
+    #header("Location: ../index.php");
 }
 
 ?>
@@ -32,13 +32,13 @@ if(!$_SESSION['admin_username'])
 	if(isset($_POST['btn_save_updates']))
 	{
 		$item_name = $_POST['item_name'];
-		$item_price = $_POST['item_price'];
-		
+		$item_price = $_POST['item_price'];		
 			
 		$imgFile = $_FILES['item_image']['name'];
 		$tmp_dir = $_FILES['item_image']['tmp_name'];
 		$imgSize = $_FILES['item_image']['size'];
-					
+		$item_explain = $_POST['item_explain'];
+
 		if($imgFile)
 		{
 			$upload_dir = 'item_images/'; // upload directory	
@@ -78,11 +78,13 @@ if(!$_SESSION['admin_username'])
 			$stmt = $DB_con->prepare('UPDATE items
 									     SET item_name=:item_name, 
 											 item_price=:item_price, 
-										     item_image=:item_image 
+										     item_image=:item_image,
+										     item_explain=:item_explain 
 								       WHERE item_id=:item_id');
 			$stmt->bindParam(':item_name',$item_name);
 			$stmt->bindParam(':item_price',$item_price);
 			$stmt->bindParam(':item_image',$itempic);
+			$stmt->bindParam(':item_explain',$item_explain);
 			$stmt->bindParam(':item_id',$id);
 				
 			if($stmt->execute()){
@@ -106,75 +108,77 @@ if(!$_SESSION['admin_username'])
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EDGE Skateshop</title>
-	 <link rel="shortcut icon" href="../assets/img/logo.png" type="image/x-icon" />
-    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/local.css" />
-
-    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-
-   
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/admin.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kaushan+Script">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
 </head>
-<body>
-    <div id="wrapper">
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.php">EDGE Skateshop - Administrator Panel</a>
-            </div>
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav side-nav">
-                    <li><a href="index.php"> &nbsp; &nbsp; &nbsp; Home</a></li>
-					<li><a data-toggle="modal" data-target="#uploadModal"> &nbsp; &nbsp; &nbsp; Upload Items</a></li>
-					<li class="active"><a href="items.php"> &nbsp; &nbsp; &nbsp; Item Management</a></li>
-					<li><a href="customers.php"> &nbsp; &nbsp; &nbsp; Customer Management</a></li>
-					<li><a href="orderdetails.php"> &nbsp; &nbsp; &nbsp; Order Details</a></li>
-					<li><a href="logout.php"> &nbsp; &nbsp; &nbsp; Logout</a></li>
-					
-                    
-                </ul>
-                <ul class="nav navbar-nav navbar-right navbar-user">
-                    <li class="dropdown messages-dropdown">
-                        <a href="#"><i class="fa fa-calendar"></i>  <?php
-                            $Today=date('y:m:d');
-                            $new=date('l, F d, Y',strtotime($Today));
-                            echo $new; ?></a>
-                        
-                    </li>
-                     <li class="dropdown user-dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php   extract($_SESSION); echo $admin_username; ?><b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            
-                            <li><a href="logout.php"><i class="fa fa-power-off"></i> Log Out</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </nav>
 
+<body id="page-top">
+    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark" id="mainNav">
+        <div class="container"><a class="navbar-brand" href="#page-top">Keefe</a><button class="navbar-toggler navbar-toggler-right" data-toggle="collapse" data-target="#navbarResponsive" type="button" data-toogle="collapse" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="nav navbar-nav ml-auto mt-0 p-1 text-uppercase">
+				    	<form class="form-inline ml-1 mt-1">
+				      		<input class="form-control mr-sm-1" type="search" placeholder="Search" aria-label="Search">
+				      		<button class="btn btn-outline-success my-2 my-sm-0 mr-3" type="submit">Search</button>
+				    	</form>
+				    <li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			          ADMIN
+			        </a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			          <a class="dropdown-item" href="#">Edit</a>
+			          <a class="dropdown-item" href="#">Another action</a>
+			          <div class="dropdown-divider"></div>
+			          <a class="dropdown-item" href="#">log out</a>
+			        </div>
+			        </li>
+                </ul>
+            </div>
+        </div>
+	</div>
+    </nav>
+    <header class="masthead" style="background-image:url('assets/img/header-bg.jpg');">
+        <div class="container"></div>
+    </header>
+    <body>
+        <div class="row mt-5 pt-5 mr-5">
+        <div class="col-md-2 bg-dark op-4 p-5 pt-5">
+			<ul class="nav flex-column ml-1 mb-5 md-3">
+			  
+			  <li class="nav-item">
+			    <a class="nav-link text-white" href="index.php">Dashboard</a><hr class="bg-secondary">
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link text-white" href="items.php">Tambah Item</a><hr class="bg-secondary">
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link text-white" href="items.php">Kelola Item</a><hr class="bg-secondary">
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link text-white" href="customers.php">Customers</a><hr class="bg-secondary">
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link text-white" href="orderdetails.php">Detail Pemesanan</a><hr class="bg-secondary">
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link text-white" href="logout.php">Logout</a><hr class="bg-secondary">
+			  </li>
+			</ul>
+        </div>
+    	<div class="col-md-10 p-2 pt-5 ">
         <div id="page-wrapper">
-            
-			
-			
-			
-			
-			
-			
-			
-			
-		<div class="clearfix"></div>
 
 <form method="post" enctype="multipart/form-data" class="form-horizontal">
 	
@@ -186,33 +190,41 @@ if(!$_SESSION['admin_username'])
         <?php
 	}
 	?>
-			 <div class="alert alert-info">
+			 <div class="alert alert-info ml-4">
                         
                           <center> <h3><strong>Update Item</strong> </h3></center>
 						  
 						  </div>
-						  
-						 <table class="table table-bordered table-responsive">
+	<table class="table table-bordered table-responsive col-md p-5 ml-3">
 	 
     <tr>
-    	<td><label class="control-label">Name of Item.</label></td>
+    	<td><label class="control-label">Nama Produk.</label></td>
         <td><input class="form-control" type="text" name="item_name" value="<?php echo $item_name; ?>" required /></td>
     </tr>
 	
 	 <tr>
-    	<td><label class="control-label">Price.</label></td>
+    	<td><label class="control-label">Harga.</label></td>
         <td><input id="inputprice" class="form-control" type="text" name="item_price" value="<?php echo $item_price; ?>" required /></td>
     </tr>
 	
-	
+
     <tr>
-    	<td><label class="control-label">Image.</label></td>
+    	<td><label class="control-label">Gambar.</label></td>
         <td>
         	<p><img class="img img-thumbnail" src="item_images/<?php echo $item_image; ?>" height="150" width="150" /></p>
         	<input class="input-group" type="file" name="item_image" accept="image/*" />
         </td>
     </tr>
-    
+
+    <tr>
+    	<td><label class="control-label">Keterangan.</label></td>
+        <td>
+        	<div class="form-group">
+				<textarea class="form-control" id="exampleFormControlTextarea1" type="text" name="item_explain" value="<?php echo $item_explain; ?>" rows="3"></textarea>
+			</div>
+        </td>
+    </tr>
+
     <tr>
         <td colspan="2"><button type="submit" name="btn_save_updates" class="btn btn-primary">
         <span class="glyphicon glyphicon-save"></span> Update
@@ -223,12 +235,10 @@ if(!$_SESSION['admin_username'])
         </td>
     </tr>
     
-    </table>
+    </table>					  
+	
     
 </form>
-						  
-						
-				<br />
 	 
 	 <div class="alert alert-default" style="background-color:#033c73;">
                        <p style="color:white;text-align:center;">
@@ -273,7 +283,7 @@ if(!$_SESSION['admin_username'])
                    <fieldset>
 					
 						
-                            <p>Name of Item:</p>
+                            <p>Nama produk:</p>
                             <div class="form-group">
 							
                                 <input class="form-control" placeholder="Name of Item" name="item_name" type="text" required>
@@ -288,7 +298,7 @@ if(!$_SESSION['admin_username'])
 							
 							
 							
-							<p>Price:</p>
+							<p>Harga:</p>
                             <div class="form-group">
 							
                                 <input id="priceinput" class="form-control" placeholder="Price" name="item_price" type="text" required>
@@ -297,7 +307,7 @@ if(!$_SESSION['admin_username'])
 							</div>
 							
 							
-							<p>Choose Image:</p>
+							<p>Pilih Gambar:</p>
 							<div class="form-group">
 						
 							 
@@ -305,7 +315,22 @@ if(!$_SESSION['admin_username'])
                            
 							</div>
 				   
-				   
+							<p>:</p>
+                            <div class="form-group">
+							
+                                <input id="priceinput" class="form-control" placeholder="Price" name="item_price" type="text" required>
+                           
+							 
+							</div>
+							
+							
+							<p>Keterangan:</p>
+							<div class="form-group">
+						
+							 
+                                <input id="item_explain" class="form-control"  type="text" required/>
+                           
+							</div>						   
 					 </fieldset>
                   
             
